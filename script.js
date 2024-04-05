@@ -8,6 +8,7 @@ const sliderValue = document.querySelector("#slider-value");
 const gridToggle = document.querySelector("#grid-toggle");
 
 let squaresAside = 16;
+let interactionsCount = 0;
 let gridOn = false;
 let drawing = false;
 
@@ -21,6 +22,8 @@ function toggleGrid(){
    }
 
 }
+/*
+Modifying the background color of the grid cell to take random rgb values
 function changeBackgroundColor(e) {
     if (e.type === "mousedown") {
         drawing = true;
@@ -28,7 +31,37 @@ function changeBackgroundColor(e) {
     } else if (e.type === "mouseover" && drawing) {
         e.target.style.backgroundColor = "black";
     } else drawing = false;
+}*/
+
+function changeBackgroundColor(e) {
+    if (e.type === "mousedown" || drawing) {
+        drawing = true;
+        // Increment interactions count
+        interactionsCount++;
+
+        // Random RGB values
+        const randomRed = Math.floor(Math.random() * 256);
+        const randomGreen = Math.floor(Math.random() * 256);
+        const randomBlue = Math.floor(Math.random() * 256);
+
+        // Darkening
+        const darkeningFactor = 0.9 ** interactionsCount;
+
+        // Darkened RGB values
+        const darkenedRed = Math.floor(randomRed * darkeningFactor);
+        const darkenedGreen = Math.floor(randomGreen * darkeningFactor);
+        const darkenedBlue = Math.floor(randomBlue * darkeningFactor);
+
+        // Construct RGB color string and apply to grid cell
+        e.target.style.backgroundColor = `rgb(${darkenedRed}, ${darkenedGreen}, ${darkenedBlue})`;
+
+        // If interactions reach 10, reset count for next iteration
+        if (interactionsCount === 10) {
+            interactionsCount = 0;
+        }
+    }
 }
+
 function createGridCells() {
     const sumOfSquares = squaresAside ** 2;
     let widthOrHeight;
@@ -43,9 +76,24 @@ function createGridCells() {
         }
         gridCell.style.width = widthOrHeight;
         gridCell.style.height = widthOrHeight;
-        gridCell.addEventListener("mousedown", (e) => changeBackgroundColor(e));
+        /*gridCell.addEventListener("mousedown", (e) => changeBackgroundColor(e));
         gridCell.addEventListener("mouseover", (e) => changeBackgroundColor(e));
-        gridCell.addEventListener("mouseup", (e) => changeBackgroundColor(e));
+        gridCell.addEventListener("mouseup", (e) => changeBackgroundColor(e));*/
+
+        gridCell.addEventListener("mousedown", function(e) {
+            drawing = true;
+            changeBackgroundColor(e);
+        });
+
+        gridCell.addEventListener("mouseover", function(e) {
+            if (drawing) {
+                changeBackgroundColor(e);
+            }
+        });
+
+        gridCell.addEventListener("mouseup", function(e) {
+            drawing = false;
+        });
 
         gridSketchArea.appendChild(gridCell);
 
