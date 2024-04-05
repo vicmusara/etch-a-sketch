@@ -1,4 +1,4 @@
-Assignment**
+*Assignment**
 
 1. Create a webpage with a 16x16 grid of square divs.
 Create the divs using JavaScript. Don’t try to create them by hand by copying and pasting them in your HTML file!
@@ -18,7 +18,7 @@ Research button tags in HTML and how you can make a JavaScript function run when
 Also check out prompts.
 You should be able to enter 64 and have a brand new 64x64 grid pop up without changing the total amount of pixels used.
 
-Extra** cred**
+*Extra credit**
 Transform the behavior of a square when interacting with the mouse by introducing a series of modifications.
 
 Rather than squares being the same color throughout the grid, randomize the squares’ RGB values with each interaction.
